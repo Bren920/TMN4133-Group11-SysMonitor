@@ -1,0 +1,175 @@
+[2025-12-15 22:45:54] [CPU] - CPU Usage: 9.39%
+[2025-12-15 22:45:56] [MEM] - Total: 2945252 kB, Used: 395540 kB, Free: 2549712 kB
+[2025-12-15 22:45:59] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:46:07] [MODE] - Started continuous monitoring
+[2025-12-15 22:46:08] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:46:08] [MEM] - Total: 2945252 kB, Used: 396028 kB, Free: 2549224 kB
+[2025-12-15 22:46:08] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:46:15] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:46:15] [MEM] - Total: 2945252 kB, Used: 396220 kB, Free: 2549032 kB
+[2025-12-15 22:46:15] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:46:23] [CPU] - CPU Usage: 0.12%
+[2025-12-15 22:46:23] [MEM] - Total: 2945252 kB, Used: 396212 kB, Free: 2549040 kB
+[2025-12-15 22:46:23] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:46:30] [CPU] - CPU Usage: 0.25%
+[2025-12-15 22:46:30] [MEM] - Total: 2945252 kB, Used: 397652 kB, Free: 2547600 kB
+[2025-12-15 22:46:30] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:46:37] [CPU] - CPU Usage: 0.12%
+[2025-12-15 22:46:37] [MEM] - Total: 2945252 kB, Used: 397652 kB, Free: 2547600 kB
+[2025-12-15 22:46:37] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:46:44] [CPU] - CPU Usage: 0.25%
+[2025-12-15 22:46:44] [MEM] - Total: 2945252 kB, Used: 397636 kB, Free: 2547616 kB
+[2025-12-15 22:46:44] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:47:32] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:48:19] [CPU] - CPU Usage: 0.25%
+[2025-12-15 22:48:21] [MEM] - Total: 2945252 kB, Used: 413972 kB, Free: 2531280 kB
+[2025-12-15 22:48:25] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:49:34] [EXIT] - User selected Exit
+[2025-12-15 22:50:17] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:18] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:19] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:20] [MEM] - Total: 2945252 kB, Used: 411504 kB, Free: 2533748 kB
+[2025-12-15 22:50:22] [CPU] - CPU Usage: 0.12%
+[2025-12-15 22:50:24] [CPU] - CPU Usage: 1.50%
+[2025-12-15 22:50:28] [MODE] - Started continuous monitoring
+[2025-12-15 22:50:29] [CPU] - CPU Usage: 0.12%
+[2025-12-15 22:50:29] [MEM] - Total: 2945252 kB, Used: 408240 kB, Free: 2537012 kB
+[2025-12-15 22:50:29] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:31] [CPU] - CPU Usage: 0.38%
+[2025-12-15 22:50:31] [MEM] - Total: 2945252 kB, Used: 410280 kB, Free: 2534972 kB
+[2025-12-15 22:50:31] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:33] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:50:33] [MEM] - Total: 2945252 kB, Used: 410312 kB, Free: 2534940 kB
+[2025-12-15 22:50:33] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:35] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:50:35] [MEM] - Total: 2945252 kB, Used: 410312 kB, Free: 2534940 kB
+[2025-12-15 22:50:35] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:37] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:50:37] [MEM] - Total: 2945252 kB, Used: 410312 kB, Free: 2534940 kB
+[2025-12-15 22:50:37] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:39] [CPU] - CPU Usage: 0.25%
+[2025-12-15 22:50:39] [MEM] - Total: 2945252 kB, Used: 410312 kB, Free: 2534940 kB
+[2025-12-15 22:50:39] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:41] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:50:41] [MEM] - Total: 2945252 kB, Used: 410312 kB, Free: 2534940 kB
+[2025-12-15 22:50:41] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:43] [CPU] - CPU Usage: 0.38%
+[2025-12-15 22:50:43] [MEM] - Total: 2945252 kB, Used: 410312 kB, Free: 2534940 kB
+[2025-12-15 22:50:43] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:45] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:50:45] [MEM] - Total: 2945252 kB, Used: 410312 kB, Free: 2534940 kB
+[2025-12-15 22:50:45] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:48] [CPU] - CPU Usage: 0.12%
+[2025-12-15 22:50:48] [MEM] - Total: 2945252 kB, Used: 410312 kB, Free: 2534940 kB
+[2025-12-15 22:50:48] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:50] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:50:50] [MEM] - Total: 2945252 kB, Used: 410312 kB, Free: 2534940 kB
+[2025-12-15 22:50:50] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:52] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:50:52] [MEM] - Total: 2945252 kB, Used: 410312 kB, Free: 2534940 kB
+[2025-12-15 22:50:52] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:54] [CPU] - CPU Usage: 0.13%
+[2025-12-15 22:50:54] [MEM] - Total: 2945252 kB, Used: 410312 kB, Free: 2534940 kB
+[2025-12-15 22:50:54] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:56] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:50:56] [MEM] - Total: 2945252 kB, Used: 410312 kB, Free: 2534940 kB
+[2025-12-15 22:50:56] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:50:58] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:50:58] [MEM] - Total: 2945252 kB, Used: 410296 kB, Free: 2534956 kB
+[2025-12-15 22:50:58] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:51:00] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:51:00] [MEM] - Total: 2945252 kB, Used: 410296 kB, Free: 2534956 kB
+[2025-12-15 22:51:00] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:51:02] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:51:02] [MEM] - Total: 2945252 kB, Used: 410844 kB, Free: 2534408 kB
+[2025-12-15 22:51:02] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:51:04] [CPU] - CPU Usage: 0.12%
+[2025-12-15 22:51:04] [MEM] - Total: 2945252 kB, Used: 410844 kB, Free: 2534408 kB
+[2025-12-15 22:51:04] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:51:06] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:51:06] [MEM] - Total: 2945252 kB, Used: 410844 kB, Free: 2534408 kB
+[2025-12-15 22:51:06] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:51:08] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:51:08] [MEM] - Total: 2945252 kB, Used: 410844 kB, Free: 2534408 kB
+[2025-12-15 22:51:08] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:51:10] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:51:10] [MEM] - Total: 2945252 kB, Used: 410844 kB, Free: 2534408 kB
+[2025-12-15 22:51:10] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:51:12] [CPU] - CPU Usage: 0.12%
+[2025-12-15 22:51:12] [MEM] - Total: 2945252 kB, Used: 410844 kB, Free: 2534408 kB
+[2025-12-15 22:51:12] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:51:14] [CPU] - CPU Usage: 0.12%
+[2025-12-15 22:51:14] [MEM] - Total: 2945252 kB, Used: 410844 kB, Free: 2534408 kB
+[2025-12-15 22:51:14] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:51:16] [CPU] - CPU Usage: 0.12%
+[2025-12-15 22:51:16] [MEM] - Total: 2945252 kB, Used: 410844 kB, Free: 2534408 kB
+[2025-12-15 22:51:16] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:51:18] [CPU] - CPU Usage: 0.13%
+[2025-12-15 22:51:18] [MEM] - Total: 2945252 kB, Used: 410844 kB, Free: 2534408 kB
+[2025-12-15 22:51:18] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [210:unattended-upgr] 
+[2025-12-15 22:51:21] [CPU] - CPU Usage: 12.11%
+[2025-12-15 22:51:21] [MEM] - Total: 2945252 kB, Used: 432876 kB, Free: 2512376 kB
+[2025-12-15 22:51:21] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [884:cloud-id] [48:systemd-journal] [307:bash] 
+[2025-12-15 22:51:23] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:51:23] [MEM] - Total: 2945252 kB, Used: 411020 kB, Free: 2534232 kB
+[2025-12-15 22:51:23] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [888:wget] 
+[2025-12-15 22:51:25] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:51:25] [MEM] - Total: 2945252 kB, Used: 411020 kB, Free: 2534232 kB
+[2025-12-15 22:51:25] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [888:wget] 
+[2025-12-15 22:51:27] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:51:27] [MEM] - Total: 2945252 kB, Used: 411272 kB, Free: 2533980 kB
+[2025-12-15 22:51:27] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [307:bash] [888:wget] 
+[2025-12-15 22:51:29] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:51:29] [MEM] - Total: 2945252 kB, Used: 412208 kB, Free: 2533044 kB
+[2025-12-15 22:51:29] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [888:wget] [307:bash] 
+[2025-12-15 22:51:31] [CPU] - CPU Usage: 0.12%
+[2025-12-15 22:51:31] [MEM] - Total: 2945252 kB, Used: 412208 kB, Free: 2533044 kB
+[2025-12-15 22:51:31] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [888:wget] [307:bash] 
+[2025-12-15 22:51:33] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:51:33] [MEM] - Total: 2945252 kB, Used: 413000 kB, Free: 2532252 kB
+[2025-12-15 22:51:33] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [888:wget] [307:bash] 
+[2025-12-15 22:51:35] [CPU] - CPU Usage: 0.25%
+[2025-12-15 22:51:35] [MEM] - Total: 2945252 kB, Used: 413000 kB, Free: 2532252 kB
+[2025-12-15 22:51:35] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [888:wget] [307:bash] 
+[2025-12-15 22:51:37] [CPU] - CPU Usage: 0.13%
+[2025-12-15 22:51:37] [MEM] - Total: 2945252 kB, Used: 413000 kB, Free: 2532252 kB
+[2025-12-15 22:51:37] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [888:wget] [307:bash] 
+[2025-12-15 22:51:39] [CPU] - CPU Usage: 0.12%
+[2025-12-15 22:51:39] [MEM] - Total: 2945252 kB, Used: 413000 kB, Free: 2532252 kB
+[2025-12-15 22:51:39] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [888:wget] [307:bash] 
+[2025-12-15 22:51:41] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:51:41] [MEM] - Total: 2945252 kB, Used: 412964 kB, Free: 2532288 kB
+[2025-12-15 22:51:41] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [888:wget] [307:bash] 
+[2025-12-15 22:51:43] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:51:43] [MEM] - Total: 2945252 kB, Used: 412964 kB, Free: 2532288 kB
+[2025-12-15 22:51:43] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [888:wget] [307:bash] 
+[2025-12-15 22:51:46] [CPU] - CPU Usage: 0.13%
+[2025-12-15 22:51:46] [MEM] - Total: 2945252 kB, Used: 412964 kB, Free: 2532288 kB
+[2025-12-15 22:51:46] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [888:wget] [307:bash] 
+[2025-12-15 22:51:48] [CPU] - CPU Usage: 0.25%
+[2025-12-15 22:51:48] [MEM] - Total: 2945252 kB, Used: 413216 kB, Free: 2532036 kB
+[2025-12-15 22:51:48] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [888:wget] [307:bash] 
+[2025-12-15 22:51:50] [CPU] - CPU Usage: 0.00%
+[2025-12-15 22:51:50] [MEM] - Total: 2945252 kB, Used: 413216 kB, Free: 2532036 kB
+[2025-12-15 22:51:50] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [888:wget] [307:bash] 
+[2025-12-15 23:00:33] [EXIT] - User selected Exit
+[2025-12-15 23:16:58] [CPU] - CPU Usage: 0.12%
+[2025-12-15 23:17:09] [CPU] - CPU Usage: 0.12%
+[2025-12-15 23:17:20] [MODE] - Started continuous monitoring
+[2025-12-15 23:17:21] [CPU] - CPU Usage: 0.13%
+[2025-12-15 23:17:21] [MEM] - Total: 2945252 kB, Used: 406680 kB, Free: 2538572 kB
+[2025-12-15 23:17:21] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [6:init] [210:unattended-upgr] 
+[2025-12-15 23:18:15] [MODE] - Started continuous monitoring
+[2025-12-15 23:18:16] [CPU] - CPU Usage: 0.00%
+[2025-12-15 23:18:16] [MEM] - Total: 2945252 kB, Used: 407104 kB, Free: 2538148 kB
+[2025-12-15 23:18:16] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [6:init] [210:unattended-upgr] 
+[2025-12-15 23:21:21] [MODE] - Started continuous monitoring
+[2025-12-15 23:21:22] [CPU] - CPU Usage: 0.00%
+[2025-12-15 23:21:22] [MEM] - Total: 2945252 kB, Used: 408372 kB, Free: 2536880 kB
+[2025-12-15 23:21:22] [PROC] - Top 5: [1:systemd] [100:systemd-udevd] [48:systemd-journal] [6:init] [210:unattended-upgr] 
+[2025-12-15 23:23:15] [EXIT] - User selected Exit
+[2025-12-15 23:36:49] [CPU] - CPU Usage: 0.13%
+[2025-12-15 23:36:52] [EXIT] - User selected Exit
+[2025-12-15 23:39:46] [CPU] - CPU Usage: 0.12%
+[2025-12-15 23:39:49] [EXIT] - User selected Exit
+[2025-12-15 23:40:23] [EXIT] - User selected Exit
