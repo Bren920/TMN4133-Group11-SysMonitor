@@ -1,14 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <dirent.h>
-#include <time.h>
-#include <signal.h>
-#include <ctype.h>
+#include <stdio.h>      // Standard I/O functions
+#include <stdlib.h>     // Standard library
+#include <string.h>     // String manipulation
+#include <unistd.h>     // POSIX API
+#include <fcntl.h>      // File control definitions
+#include <sys/types.h>  // System data types
+#include <sys/stat.h>   // File status definitions
+#include <dirent.h>     // Directory handling
+#include <time.h>       // Time functions for logging timestamps
+#include <signal.h>     // Signal handling
+#include <ctype.h>      // Character handling
 
 #define BUFFER_SIZE 4096
 #define LOG_FILE "syslog.txt"
@@ -39,6 +39,7 @@ void getTimestamp(char *buffer, size_t size) {
 
 // Log to file using system calls
 void logEntry(const char *mode, const char *data) {
+    // Open file: Write Only | Create if missing | Append to end | Permissions 0644
     int fd = open(LOG_FILE, O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (fd == -1) {
         perror("Error opening log file");
@@ -55,7 +56,7 @@ void logEntry(const char *mode, const char *data) {
     if (write(fd, logBuffer, len) == -1) {
         perror("Error writing to log file");
     }
-    close(fd);
+    close(fd); // Always close file descriptor
 }
 
 // Signal Handler
