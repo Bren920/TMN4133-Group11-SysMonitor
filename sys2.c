@@ -23,6 +23,7 @@ void logEntry(const char *mode, const char *data);
 void printError(const char *msg);
 void clearScreen();
 void waitForInput();
+void getTimestamp(char *buffer, size_t size);
 
 // --- Global Flags ---
 // keep_running: Controls the while loop in continuous mode
@@ -80,11 +81,20 @@ void handleSignal(int sig) {
 
 // Wait for user to press Enter
 void waitForInput() {
-    printf("\nPress Enter to Continue...");
+    printf("\nPress Enter to continue...");
     // Clear input buffer (catch the newline from previous scanf)
     while(getchar() != '\n'); 
     // Wait for actual input
     getchar(); 
+}
+
+void printError(const char *msg) {
+    perror(msg);
+}
+
+void clearScreen() {
+    // using clear for Linux
+    system("clear");
 }
 
 // --- Core Features ---
@@ -266,8 +276,7 @@ void listTopProcesses() {
 
 // 4. Continuous Monitoring
 void continuousMonitor(int interval) {
-    printf("Starting Continuous Monitoring (Interval: %ds).\n", interval);
-    printf(">> Press Ctrl+C to return to Main Menu <<\n");
+    
     logEntry("MODE", "Started continuous monitoring");
     
     // Set flags before starting loop
@@ -277,6 +286,7 @@ void continuousMonitor(int interval) {
     while (keep_running) {
         clearScreen(); 
         printf("=== SysMonitor++ (Ctrl+C to Return to Menu) ===\n");
+        printf("Starting Continuous Monitoring (Interval: %ds).\n", interval);
         getCPUUsage();
         printf("\n");
         getMemoryUsage();
@@ -291,17 +301,7 @@ void continuousMonitor(int interval) {
 
     // Reset flag when loop ends
     is_monitoring = 0;
-    // Clear screen one last time or just print a separator
     printf("\n----------------------------------\n");
-}
-
-void printError(const char *msg) {
-    perror(msg);
-}
-
-void clearScreen() {
-    // using clear for Linux
-    system("clear");
 }
 
 // --- Main Program ---
@@ -358,20 +358,19 @@ int main(int argc, char *argv[]) {
         printf("5. Exit\n");
         printf("Select an option: ");
         
-        // Scanf might return error if signal interrupts it, so check result
         int result = scanf("%d", &choice);
         
-        if (result == EOF) {
-            continue; 
-        }
+        // Handle EOF (Ctrl+D or stream end)
+        if (result == EOF) continue; 
 
+        // Handle Non-Numeric Input
         if (result != 1) {
-            while(getchar() != '\n'); // Clear buffer
-            continue;
+            while(getchar() != '\n'); // Clear the input buffer completely
+            printf("\nInvalid choice. Please enter a number (1-5).\n");
+            sleep(1); // Pause so user sees the error before screen clears
+            continue; // Restart the loop
         }
 
-        // Logic Change: clearScreen() is removed from inside cases.
-        // Screen clears only when the loop restarts.
         switch (choice) {
             case 1: 
                 getCPUUsage(); 
@@ -385,13 +384,26 @@ int main(int argc, char *argv[]) {
                 listTopProcesses(); 
                 waitForInput(); 
                 break;
-            case 4: 
-                printf("Enter refresh interval (seconds): ");
-                int interval;
-                scanf("%d", &interval);
-                if (interval > 0) continuousMonitor(interval);
-                else printf("Invalid interval.\n");
+            case 4: {
+                int interval = 0;
+                int valid = 0;
+                
+                // Loop until valid integer is entered
+                while (!valid) {
+                    printf("Enter refresh interval (seconds): ");
+                    int scanRes = scanf("%d", &interval);
+                    
+                    if (scanRes == 1 && interval > 0) {
+                        valid = 1; // Input is good, exit loop
+                    } else {
+                        // Input was not a number OR was <= 0
+                        while(getchar() != '\n'); // Clear the bad input from buffer
+                        printf("Invalid input. Please enter a positive number.\n");
+                    }
+                }
+                continuousMonitor(interval);
                 break;
+            }
             case 5: 
                 printf("Exiting... Saving log.\n");
                 logEntry("EXIT", "User selected Exit");
