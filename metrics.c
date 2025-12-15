@@ -106,7 +106,6 @@ void getMemoryUsage() {
     printf("--------------------------------\n"); 
  
     char logMsg[128]; 
-    snprintf(logMsg, sizeof(logMsg), "Total: %ld kB, Used: %ld kB, Free: %ld kB", total_mem, 
-used_mem, available_mem); 
+    snprintf(logMsg, sizeof(logMsg), "Total: %ld kB, Used: %ld kB, Free: %ld kB", total_mem, used_mem, available_mem); 
     logEntry("MEM", logMsg); 
 } 
