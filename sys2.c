@@ -81,7 +81,7 @@ void handleSignal(int sig) {
 
 // Wait for user to press Enter
 void waitForInput() {
-    printf("\nPress Enter to continue...");
+    printf("\nPress Enter to Continue...");
     // Clear input buffer (catch the newline from previous scanf)
     while(getchar() != '\n'); 
     // Wait for actual input
