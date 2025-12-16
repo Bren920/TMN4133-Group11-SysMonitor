@@ -339,11 +339,19 @@ int main(int argc, char *argv[]) {
         printf("5. Exit\n");
         printf("Select an option: ");
         
+        // Read the integer
         int result = scanf("%d", &choice);
+
+        // --- FIX START: Clear the buffer globally here ---
+        // This eats the newline (\n) left by scanf so it doesn't 
+        // trigger waitForInput() or other scans accidentally.
+        int ch;
+        while ((ch = getchar()) != '\n' && ch != EOF);
+        // --- FIX END ---
+        
         if (result == EOF) continue; 
 
         if (result != 1) {
-            while(getchar() != '\n'); 
             printf("\nInvalid choice. Please enter a number (1-5).\n");
             sleep(1); 
             continue; 
@@ -358,9 +366,8 @@ int main(int argc, char *argv[]) {
                 int valid = 0;
                 char inputBuffer[64];
 
-                // Clear input buffer from menu choice
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF); 
+                // NOTE: We do NOT need to clear buffer here anymore
+                // because we did it globally after scanf above.
 
                 while (!valid) {
                     printf("Enter refresh interval (seconds) [Default: 2]: ");
