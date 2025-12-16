@@ -56,7 +56,7 @@ void logEntry(const char *mode, const char *data) {
     close(fd);
 }
 
-// --- SIGNAL HANDLER ---
+// ---- SIGNAL HANDLER ----
 void handleSignal(int sig) {
     // Re-arm signal to ensure it persists
     signal(SIGINT, handleSignal);
