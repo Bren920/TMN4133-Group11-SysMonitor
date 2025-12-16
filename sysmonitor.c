@@ -247,7 +247,9 @@ void listTopProcesses() {
         if (strlen(logBuffer) + strlen(tmp) < sizeof(logBuffer)) {
             strcat(logBuffer, tmp);
         }
-    printf("------------------------------------------------\n");}
+    }
+    
+        printf("------------------------------------------------\n");
     logEntry("PROC", logBuffer);
 }
 
