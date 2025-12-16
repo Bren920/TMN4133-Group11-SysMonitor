@@ -296,7 +296,12 @@ void continuousMonitor(int interval) {
         // Check keep_running again in case signal happened during function calls
         if (!keep_running) break;
 
-        sleep(interval);
+        // Adjust sleep because getCPUUsage() already waited 1 second
+        if (interval > 1) {
+            sleep(interval - 1);
+        } else {
+            usleep(100000); // Sleep 0.1s just to be safe if interval is 1
+        }
     }
 
     // Reset flag when loop ends
