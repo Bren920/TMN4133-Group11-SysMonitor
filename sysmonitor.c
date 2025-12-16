@@ -69,7 +69,7 @@ void handleSignal(int sig) {
             fflush(stdout);
         } else {
             // Case 2: In Menu
-            printf("\n\nExiting Program... Saving log.\n");
+            printf("\n\nExiting Program... Saving Log.\n");
             logEntry("SIGNAL", "Session ended via Ctrl+C");
             exit(0);
         }
@@ -338,7 +338,7 @@ int main(int argc, char *argv[]) {
         printf("3. Top 5 Processes\n");
         printf("4. Continuous Monitoring\n");
         printf("5. Exit\n");
-        printf("Select an option: ");
+        printf("Select an option >> ");
         
         // Read the integer
         int result = scanf("%d", &choice);
@@ -371,7 +371,8 @@ int main(int argc, char *argv[]) {
                 // because we did it globally after scanf above.
 
                 while (!valid) {
-                    printf("Enter refresh interval (seconds) [Default: 2]: ");
+                    printf("Enter update interval in seconds (Press Enter for 2s): ");
+
                     if (fgets(inputBuffer, sizeof(inputBuffer), stdin) == NULL) continue; 
 
                     if (inputBuffer[0] == '\n') {
