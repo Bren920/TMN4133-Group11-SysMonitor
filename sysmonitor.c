@@ -26,21 +26,17 @@ void waitForInput();
 void getTimestamp(char *buffer, size_t size);
 
 // --- Global Flags ---
-// keep_running: Controls the while loop in continuous mode
 volatile sig_atomic_t keep_running = 1;
-// is_monitoring: Tells the signal handler if we are in the loop or not
 volatile sig_atomic_t is_monitoring = 0;
 
 // --- Helper Functions ---
 
-// Get current timestamp string
 void getTimestamp(char *buffer, size_t size) {
     time_t now = time(NULL);
     struct tm *t = localtime(&now);
     strftime(buffer, size, "%Y-%m-%d %H:%M:%S", t);
 }
 
-// Log to file using system calls
 void logEntry(const char *mode, const char *data) {
     int fd = open(LOG_FILE, O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (fd == -1) {
@@ -52,7 +48,6 @@ void logEntry(const char *mode, const char *data) {
     getTimestamp(timestamp, sizeof(timestamp));
 
     char logBuffer[BUFFER_SIZE];
-    // Format: [Timestamp] [Mode] - Data
     int len = snprintf(logBuffer, sizeof(logBuffer), "[%s] [%s] - %s\n", timestamp, mode, data);
 
     if (write(fd, logBuffer, len) == -1) {
@@ -61,17 +56,17 @@ void logEntry(const char *mode, const char *data) {
     close(fd);
 }
 
-// Signal Handler
+// --- SIGNAL HANDLER ---
 void handleSignal(int sig) {
     if (sig == SIGINT) {
         if (is_monitoring) {
-            // Case 1: We are inside the continuous monitor loop.
-            // Just stop the loop, do not exit the program.
-            printf("\nStopping monitoring... returning to menu.\n");
-            keep_running = 0;
+            // Case 1: Inside Continuous Monitor
+            // Just notify and set flag to stop loop.
+            // The wait logic happens inside continuousMonitor now.
+            printf("\n[Signal Caught] Stopping monitoring...\n");
+            keep_running = 0; 
         } else {
-            // Case 2: We are at the menu or elsewhere.
-            // Exit the program.
+            // Case 2: In Menu
             printf("\n\nExiting Program... Saving log.\n");
             logEntry("SIGNAL", "Session ended via Ctrl+C");
             exit(0);
@@ -79,13 +74,12 @@ void handleSignal(int sig) {
     }
 }
 
-// Wait for user to press Enter
+// Universal wait function
 void waitForInput() {
     printf("\nPress Enter to Continue...");
-    // Clear input buffer (catch the newline from previous scanf)
-    while(getchar() != '\n'); 
-    // Wait for actual input
-    getchar(); 
+    // Flush buffer then wait
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF); 
 }
 
 void printError(const char *msg) {
@@ -93,13 +87,11 @@ void printError(const char *msg) {
 }
 
 void clearScreen() {
-    // \033[H moves cursor to home, \033[J clears to end of screen
     printf("\033[H\033[J");
 }
 
 // --- Core Features ---
 
-// 1. CPU Usage (Reads /proc/stat)
 void getCPUUsage() {
     unsigned long long a[4], b[4];
     double loadavg;
@@ -113,7 +105,6 @@ void getCPUUsage() {
     close(fd);
     sscanf(buffer, "%*s %llu %llu %llu %llu", &a[0], &a[1], &a[2], &a[3]);
 
-    // Wait 1 second for delta calculation
     sleep(1);
 
     // Second reading
@@ -124,30 +115,23 @@ void getCPUUsage() {
     close(fd);
     sscanf(buffer, "%*s %llu %llu %llu %llu", &b[0], &b[1], &b[2], &b[3]);
 
-    // Calculate Usage
     unsigned long long load1 = a[0] + a[1] + a[2];
     unsigned long long load2 = b[0] + b[1] + b[2];
     unsigned long long total1 = load1 + a[3];
     unsigned long long total2 = load2 + b[3];
 
-    // Avoid division by zero
-    if (total2 == total1) {
-        loadavg = 0.0;
-    } else {
-        loadavg = (double)(load2 - load1) / (double)(total2 - total1) * 100.0;
-    }
+    if (total2 == total1) loadavg = 0.0;
+    else loadavg = (double)(load2 - load1) / (double)(total2 - total1) * 100.0;
 
     printf("\n--------------------------------\n");
     printf(" CPU Usage: %.2f%%\n", loadavg);
     printf("--------------------------------\n");
 
-    // Log the result
     char logMsg[64];
     snprintf(logMsg, sizeof(logMsg), "CPU Usage: %.2f%%", loadavg);
     logEntry("CPU", logMsg);
 }
 
-// 2. Memory Usage (Reads /proc/meminfo)
 void getMemoryUsage() {
     int fd = open("/proc/meminfo", O_RDONLY);
     if (fd == -1) { printError("Failed to read /proc/meminfo"); return; }
@@ -159,7 +143,6 @@ void getMemoryUsage() {
 
     long total_mem = 0, free_mem = 0, available_mem = 0;
     
-    // Parse the buffer manually
     char *p = buffer;
     char *memTotalPtr = strstr(p, "MemTotal:");
     if (memTotalPtr) sscanf(memTotalPtr, "MemTotal: %ld kB", &total_mem);
@@ -168,17 +151,12 @@ void getMemoryUsage() {
     if (memFreePtr) sscanf(memFreePtr, "MemFree: %ld kB", &free_mem);
     
     char *avail_ptr = strstr(p, "MemAvailable:");
-    if (avail_ptr) {
-        sscanf(avail_ptr, "MemAvailable: %ld kB", &available_mem);
-    } else {
-        available_mem = free_mem; 
-    }
+    if (avail_ptr) sscanf(avail_ptr, "MemAvailable: %ld kB", &available_mem);
+    else available_mem = free_mem; 
 
     long used_mem = total_mem - available_mem;
     double used_percent = 0.0;
-    if (total_mem > 0) {
-        used_percent = (double)used_mem / total_mem * 100.0;
-    }
+    if (total_mem > 0) used_percent = (double)used_mem / total_mem * 100.0;
 
     printf("\n--------------------------------\n");
     printf(" Memory Information\n");
@@ -193,7 +171,6 @@ void getMemoryUsage() {
     logEntry("MEM", logMsg);
 }
 
-// 3. Top 5 Processes (Traverse /proc/)
 struct Process {
     int pid;
     char name[256];
@@ -270,16 +247,13 @@ void listTopProcesses() {
             strcat(logBuffer, tmp);
         }
     }
-    
     logEntry("PROC", logBuffer);
 }
 
-// 4. Continuous Monitoring
+// --- FIXED CONTINUOUS MONITOR ---
 void continuousMonitor(int interval) {
-    
     logEntry("MODE", "Started continuous monitoring");
     
-    // Set flags before starting loop
     keep_running = 1;
     is_monitoring = 1; 
 
@@ -293,25 +267,28 @@ void continuousMonitor(int interval) {
         printf("\n");
         listTopProcesses();
         
-        // Check keep_running again in case signal happened during function calls
         if (!keep_running) break;
 
-        // Adjust sleep because getCPUUsage() already waited 1 second
+        // Adjust sleep
         if (interval > 1) {
             sleep(interval - 1);
         } else {
-            usleep(100000); // Sleep 0.1s just to be safe if interval is 1
+            usleep(100000); 
         }
     }
 
-    // Reset flag when loop ends
+    // --- BUG FIX: Wait for user input after Ctrl+C ---
     is_monitoring = 0;
-    printf("\n----------------------------------\n");
+    
+    printf("\n>> Monitoring Stopped. Press Enter to return to menu...");
+    
+    // Clear buffer and wait for Enter
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 // --- Main Program ---
 int main(int argc, char *argv[]) {
-    // Setup Signal Handling
     signal(SIGINT, handleSignal);
 
     // Command Line Mode
@@ -349,7 +326,6 @@ int main(int argc, char *argv[]) {
     int choice;
     do {
         clearScreen();
-        // Ensure signal flags are reset for menu interaction
         is_monitoring = 0;
         keep_running = 1;
 
@@ -364,46 +340,44 @@ int main(int argc, char *argv[]) {
         printf("Select an option: ");
         
         int result = scanf("%d", &choice);
-        
-        // Handle EOF (Ctrl+D or stream end)
         if (result == EOF) continue; 
 
-        // Handle Non-Numeric Input
         if (result != 1) {
-            while(getchar() != '\n'); // Clear the input buffer completely
+            while(getchar() != '\n'); 
             printf("\nInvalid choice. Please enter a number (1-5).\n");
-            sleep(1); // Pause so user sees the error before screen clears
-            continue; // Restart the loop
+            sleep(1); 
+            continue; 
         }
 
         switch (choice) {
-            case 1: 
-                getCPUUsage(); 
-                waitForInput(); 
-                break;
-            case 2: 
-                getMemoryUsage(); 
-                waitForInput(); 
-                break;
-            case 3: 
-                listTopProcesses(); 
-                waitForInput(); 
-                break;
+            case 1: getCPUUsage(); waitForInput(); break;
+            case 2: getMemoryUsage(); waitForInput(); break;
+            case 3: listTopProcesses(); waitForInput(); break;
             case 4: {
-                int interval = 0;
+                int interval = 2; // Default
                 int valid = 0;
-                
-                // Loop until valid integer is entered
+                char inputBuffer[64];
+
+                int c;
+                while ((c = getchar()) != '\n' && c != EOF); 
+
                 while (!valid) {
-                    printf("Enter refresh interval (seconds): ");
-                    int scanRes = scanf("%d", &interval);
-                    
-                    if (scanRes == 1 && interval > 0) {
-                        valid = 1; // Input is good, exit loop
+                    printf("Enter refresh interval (seconds) [Default: 2]: ");
+                    if (fgets(inputBuffer, sizeof(inputBuffer), stdin) == NULL) continue; 
+
+                    if (inputBuffer[0] == '\n') {
+                        interval = 2; 
+                        valid = 1;
+                        printf(">> Using default: 2 seconds.\n");
+                        sleep(1); 
                     } else {
-                        // Input was not a number OR was <= 0
-                        while(getchar() != '\n'); // Clear the bad input from buffer
-                        printf("Invalid input. Please enter a positive number.\n");
+                        int parsed;
+                        if (sscanf(inputBuffer, "%d", &parsed) == 1) {
+                            if (parsed > 0) {
+                                interval = parsed;
+                                valid = 1;
+                            } else printf("Invalid input. Please enter a positive number.\n");
+                        } else printf("Invalid input. Please enter a number.\n");
                     }
                 }
                 continuousMonitor(interval);
