@@ -93,8 +93,8 @@ void printError(const char *msg) {
 }
 
 void clearScreen() {
-    // using clear for Linux
-    system("clear");
+    // \033[H moves cursor to home, \033[J clears to end of screen
+    printf("\033[H\033[J");
 }
 
 // --- Core Features ---
