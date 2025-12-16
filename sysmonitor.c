@@ -140,7 +140,6 @@ void getCPUUsage() {
     printf("\n--------------------------------\n");
     printf(" CPU Usage: %.2f%%\n", loadavg);
     printf("--------------------------------\n");
-
     // Log the result
     char logMsg[64];
     snprintf(logMsg, sizeof(logMsg), "CPU Usage: %.2f%%", loadavg);
@@ -257,7 +256,6 @@ void listTopProcesses() {
     printf("------------------------------------------------\n");
     printf(" %-8s %-20s %-10s\n", "PID", "Name", "CPU Ticks");
     printf("------------------------------------------------\n");
-
     char logBuffer[2048] = "Top 5: "; 
     
     for (int i = 0; i < 5 && i < count; i++) {
@@ -374,9 +372,7 @@ int main(int argc, char *argv[]) {
             printf("\nInvalid choice. Please enter a number (1-5).\n");
             sleep(1); // Pause so user sees the error before screen clears
             continue; // Restart the loop
-        }
-
-        switch (choice) {
+        }switch (choice) {
             case 1: 
                 getCPUUsage(); 
                 waitForInput(); 
@@ -390,20 +386,43 @@ int main(int argc, char *argv[]) {
                 waitForInput(); 
                 break;
             case 4: {
-                int interval = 0;
+                int interval = 2; // Default to 2
                 int valid = 0;
-                
-                // Loop until valid integer is entered
+                char inputBuffer[64];
+
+                // Clear the newline left over from the menu choice
+                int c;
+                while ((c = getchar()) != '\n' && c != EOF); 
+
+                // Loop until valid input or default used
                 while (!valid) {
-                    printf("Enter refresh interval (seconds): ");
-                    int scanRes = scanf("%d", &interval);
+                    printf("Enter refresh interval (seconds) [Default: 2， just enter if you wish to use default]: ");
                     
-                    if (scanRes == 1 && interval > 0) {
-                        valid = 1; // Input is good, exit loop
-                    } else {
-                        // Input was not a number OR was <= 0
-                        while(getchar() != '\n'); // Clear the bad input from buffer
-                        printf("Invalid input. Please enter a positive number.\n");
+                    // Use fgets to capture "Enter" key
+                    if (fgets(inputBuffer, sizeof(inputBuffer), stdin) == NULL) {
+                        continue; 
+                    }
+
+                    // Check if user just pressed Enter (empty line with newline)
+                    if (inputBuffer[0] == '\n') {
+                        interval = 2; // Use Default
+                        valid = 1;
+                        printf(">> Using default: 2 seconds.\n");
+                        sleep(1); // Brief pause to show message
+                    } 
+                    else {
+                        int parsed;
+                        // Try to read a number from the string
+                        if (sscanf(inputBuffer, "%d", &parsed) == 1) {
+                            if (parsed > 0) {
+                                interval = parsed;
+                                valid = 1;
+                            } else {
+                                printf("Invalid input. Please enter a positive number.\n");
+                            }
+                        } else {
+                            printf("Invalid input. Please enter a number.\n");
+                        }
                     }
                 }
                 continuousMonitor(interval);
