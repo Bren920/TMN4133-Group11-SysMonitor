@@ -58,13 +58,15 @@ void logEntry(const char *mode, const char *data) {
 
 // --- SIGNAL HANDLER ---
 void handleSignal(int sig) {
+    // Re-arm signal to ensure it persists
+    signal(SIGINT, handleSignal);
+
     if (sig == SIGINT) {
         if (is_monitoring) {
             // Case 1: Inside Continuous Monitor
-            // Just notify and set flag to stop loop.
-            // The wait logic happens inside continuousMonitor now.
             printf("\n[Signal Caught] Stopping monitoring...\n");
             keep_running = 0; 
+            fflush(stdout);
         } else {
             // Case 2: In Menu
             printf("\n\nExiting Program... Saving log.\n");
@@ -77,7 +79,6 @@ void handleSignal(int sig) {
 // Universal wait function
 void waitForInput() {
     printf("\nPress Enter to Continue...");
-    // Flush buffer then wait
     int c;
     while ((c = getchar()) != '\n' && c != EOF); 
 }
@@ -234,7 +235,6 @@ void listTopProcesses() {
     printf("------------------------------------------------\n");
     printf(" %-8s %-20s %-10s\n", "PID", "Name", "CPU Ticks");
     printf("------------------------------------------------\n");
-
     char logBuffer[2048] = "Top 5: "; 
     
     for (int i = 0; i < 5 && i < count; i++) {
@@ -277,7 +277,7 @@ void continuousMonitor(int interval) {
         }
     }
 
-    // --- BUG FIX: Wait for user input after Ctrl+C ---
+    // Reset Monitoring Flag
     is_monitoring = 0;
     
     printf("\n>> Monitoring Stopped. Press Enter to return to menu...");
@@ -358,6 +358,7 @@ int main(int argc, char *argv[]) {
                 int valid = 0;
                 char inputBuffer[64];
 
+                // Clear input buffer from menu choice
                 int c;
                 while ((c = getchar()) != '\n' && c != EOF); 
 
@@ -376,8 +377,12 @@ int main(int argc, char *argv[]) {
                             if (parsed > 0) {
                                 interval = parsed;
                                 valid = 1;
-                            } else printf("Invalid input. Please enter a positive number.\n");
-                        } else printf("Invalid input. Please enter a number.\n");
+                            } else {
+                                printf("Invalid input. Please enter a positive number.\n");
+                            }
+                        } else {
+                            printf("Invalid input. Please enter a number.\n");
+                        }
                     }
                 }
                 continuousMonitor(interval);
