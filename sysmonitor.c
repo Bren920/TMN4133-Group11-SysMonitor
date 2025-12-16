@@ -396,7 +396,7 @@ int main(int argc, char *argv[]) {
 
                 // Loop until valid input or default used
                 while (!valid) {
-                    printf("Enter refresh interval (seconds) \n[Default: 2 seconds， press ENTER if you wish to use default 2 seconds] >>  ");
+                    printf("Enter refresh interval (seconds) [Default: 2 seconds， please press  if you wish to use default]: ");
                     
                     // Use fgets to capture "Enter" key
                     if (fgets(inputBuffer, sizeof(inputBuffer), stdin) == NULL) {
