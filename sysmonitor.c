@@ -1,14 +1,14 @@
-#include <stdio.h>      // Standard I/O functions
-#include <stdlib.h>     // Standard library
-#include <string.h>     // String manipulation
-#include <unistd.h>     // POSIX API
-#include <fcntl.h>      // File control definitions
-#include <sys/types.h>  // System data types
-#include <sys/stat.h>   // File status definitions
-#include <dirent.h>     // Directory handling
-#include <time.h>       // Time functions for logging timestamps
-#include <signal.h>     // Signal handling
-#include <ctype.h>      // Character handling
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <time.h>
+#include <signal.h>
+#include <ctype.h>
 
 #define BUFFER_SIZE 4096
 #define LOG_FILE "syslog.txt"
@@ -21,6 +21,9 @@ void continuousMonitor(int interval);
 void handleSignal(int sig);
 void logEntry(const char *mode, const char *data);
 void printError(const char *msg);
+void clearScreen();
+void waitForInput();
+void getTimestamp(char *buffer, size_t size);
 
 // --- Global Flags ---
 // keep_running: Controls the while loop in continuous mode
@@ -39,7 +42,6 @@ void getTimestamp(char *buffer, size_t size) {
 
 // Log to file using system calls
 void logEntry(const char *mode, const char *data) {
-    // Open file: Write Only | Create if missing | Append to end | Permissions 0644
     int fd = open(LOG_FILE, O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (fd == -1) {
         perror("Error opening log file");
@@ -56,7 +58,7 @@ void logEntry(const char *mode, const char *data) {
     if (write(fd, logBuffer, len) == -1) {
         perror("Error writing to log file");
     }
-    close(fd); // Always close file descriptor
+    close(fd);
 }
 
 // Signal Handler
@@ -77,11 +79,29 @@ void handleSignal(int sig) {
     }
 }
 
+// Wait for user to press Enter
+void waitForInput() {
+    printf("\nPress Enter to Continue...");
+    // Clear input buffer (catch the newline from previous scanf)
+    while(getchar() != '\n'); 
+    // Wait for actual input
+    getchar(); 
+}
+
+void printError(const char *msg) {
+    perror(msg);
+}
+
+void clearScreen() {
+    // using clear for Linux
+    system("clear");
+}
+
 // --- Core Features ---
 
 // 1. CPU Usage (Reads /proc/stat)
 void getCPUUsage() {
-    unsigned long long a[4], b[4]; // Changed to unsigned long long for precision
+    unsigned long long a[4], b[4];
     double loadavg;
     int fd;
     char buffer[BUFFER_SIZE];
@@ -94,13 +114,12 @@ void getCPUUsage() {
     sscanf(buffer, "%*s %llu %llu %llu %llu", &a[0], &a[1], &a[2], &a[3]);
 
     // Wait 1 second for delta calculation
-    // If interrupted by signal, sleep returns early, which is fine.
     sleep(1);
 
     // Second reading
     fd = open("/proc/stat", O_RDONLY);
     if (fd == -1) { printError("Failed to read /proc/stat"); return; }
-    memset(buffer, 0, sizeof(buffer)); // Clear buffer
+    memset(buffer, 0, sizeof(buffer)); 
     read(fd, buffer, sizeof(buffer) - 1);
     close(fd);
     sscanf(buffer, "%*s %llu %llu %llu %llu", &b[0], &b[1], &b[2], &b[3]);
@@ -118,7 +137,7 @@ void getCPUUsage() {
         loadavg = (double)(load2 - load1) / (double)(total2 - total1) * 100.0;
     }
 
-    printf("--------------------------------\n");
+    printf("\n--------------------------------\n");
     printf(" CPU Usage: %.2f%%\n", loadavg);
     printf("--------------------------------\n");
 
@@ -161,7 +180,7 @@ void getMemoryUsage() {
         used_percent = (double)used_mem / total_mem * 100.0;
     }
 
-    printf("--------------------------------\n");
+    printf("\n--------------------------------\n");
     printf(" Memory Information\n");
     printf("--------------------------------\n");
     printf(" Total Memory : %ld kB\n", total_mem);
@@ -233,7 +252,7 @@ void listTopProcesses() {
 
     qsort(procs, count, sizeof(struct Process), compareProcesses);
 
-    printf("------------------------------------------------\n");
+    printf("\n------------------------------------------------\n");
     printf(" Top 5 Processes (by CPU Time Ticks)\n");
     printf("------------------------------------------------\n");
     printf(" %-8s %-20s %-10s\n", "PID", "Name", "CPU Ticks");
@@ -257,8 +276,7 @@ void listTopProcesses() {
 
 // 4. Continuous Monitoring
 void continuousMonitor(int interval) {
-    printf("Starting Continuous Monitoring (Interval: %ds).\n", interval);
-    printf(">> Press Ctrl+C to return to Main Menu <<\n");
+    
     logEntry("MODE", "Started continuous monitoring");
     
     // Set flags before starting loop
@@ -266,8 +284,9 @@ void continuousMonitor(int interval) {
     is_monitoring = 1; 
 
     while (keep_running) {
-        system("clear"); 
+        clearScreen(); 
         printf("=== SysMonitor++ (Ctrl+C to Return to Menu) ===\n");
+        printf("Starting Continuous Monitoring (Interval: %ds).\n", interval);
         getCPUUsage();
         printf("\n");
         getMemoryUsage();
@@ -282,12 +301,7 @@ void continuousMonitor(int interval) {
 
     // Reset flag when loop ends
     is_monitoring = 0;
-    // Clear screen one last time or just print a separator
     printf("\n----------------------------------\n");
-}
-
-void printError(const char *msg) {
-    perror(msg);
 }
 
 // --- Main Program ---
@@ -329,6 +343,7 @@ int main(int argc, char *argv[]) {
     // Interactive Menu Mode
     int choice;
     do {
+        clearScreen();
         // Ensure signal flags are reset for menu interaction
         is_monitoring = 0;
         keep_running = 1;
@@ -343,36 +358,59 @@ int main(int argc, char *argv[]) {
         printf("5. Exit\n");
         printf("Select an option: ");
         
-        // Scanf might return error if signal interrupts it, so check result
         int result = scanf("%d", &choice);
         
-        if (result == EOF) {
-            // This happens if Ctrl+C is pressed while waiting for input at the menu
-            // handleSignal will likely catch it and exit, but just in case:
-            continue; 
-        }
+        // Handle EOF (Ctrl+D or stream end)
+        if (result == EOF) continue; 
 
+        // Handle Non-Numeric Input
         if (result != 1) {
-            while(getchar() != '\n'); // Clear buffer
-            continue;
+            while(getchar() != '\n'); // Clear the input buffer completely
+            printf("\nInvalid choice. Please enter a number (1-5).\n");
+            sleep(1); // Pause so user sees the error before screen clears
+            continue; // Restart the loop
         }
 
         switch (choice) {
-            case 1: getCPUUsage(); break;
-            case 2: getMemoryUsage(); break;
-            case 3: listTopProcesses(); break;
-            case 4: 
-                printf("Enter refresh interval (seconds): ");
-                int interval;
-                scanf("%d", &interval);
-                if (interval > 0) continuousMonitor(interval);
-                else printf("Invalid interval.\n");
+            case 1: 
+                getCPUUsage(); 
+                waitForInput(); 
                 break;
+            case 2: 
+                getMemoryUsage(); 
+                waitForInput(); 
+                break;
+            case 3: 
+                listTopProcesses(); 
+                waitForInput(); 
+                break;
+            case 4: {
+                int interval = 0;
+                int valid = 0;
+                
+                // Loop until valid integer is entered
+                while (!valid) {
+                    printf("Enter refresh interval (seconds): ");
+                    int scanRes = scanf("%d", &interval);
+                    
+                    if (scanRes == 1 && interval > 0) {
+                        valid = 1; // Input is good, exit loop
+                    } else {
+                        // Input was not a number OR was <= 0
+                        while(getchar() != '\n'); // Clear the bad input from buffer
+                        printf("Invalid input. Please enter a positive number.\n");
+                    }
+                }
+                continuousMonitor(interval);
+                break;
+            }
             case 5: 
                 printf("Exiting... Saving log.\n");
                 logEntry("EXIT", "User selected Exit");
                 break;
-            default: printf("Invalid choice. Try again.\n");
+            default: 
+                printf("Invalid choice. Try again.\n");
+                sleep(1);
         }
     } while (choice != 5);
 
