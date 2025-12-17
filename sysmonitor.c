@@ -17,7 +17,7 @@
 void getCPUUsage();
 void getMemoryUsage();
 void listTopProcesses();
-void continuousMonitor(int interval);
+void continuousMonitor(int interval, int is_interactive);
 void handleSignal(int sig);
 void logEntry(const char *mode, const char *data);
 void printError(const char *msg);
@@ -63,7 +63,7 @@ void handleSignal(int sig) {
             // Case 1: Inside Continuous Monitor
             printf("\n[Signal Caught] Stopping monitoring...\n");
             
-            // --- FIX: Added Log Entry Here ---
+            // Log the event
             logEntry("SIGNAL", "Continuous monitoring stopped via Ctrl+C");
             
             keep_running = 0; // Breaks the loop
@@ -106,7 +106,7 @@ void getCPUUsage() {
     close(fd);
     sscanf(buffer, "%*s %llu %llu %llu %llu", &a[0], &a[1], &a[2], &a[3]);
 
-    usleep(200000);
+    sleep(1);
 
     // Second reading
     fd = open("/proc/stat", O_RDONLY);
@@ -252,7 +252,7 @@ void listTopProcesses() {
 }
 
 // --- CONTINUOUS MONITOR ---
-void continuousMonitor(int interval) {
+void continuousMonitor(int interval, int is_interactive) {
     logEntry("MODE", "Started continuous monitoring");
     
     keep_running = 1;
@@ -281,11 +281,13 @@ void continuousMonitor(int interval) {
     // Reset Monitoring Flag
     is_monitoring = 0;
     
-    printf("\n>> Monitoring Stopped. Press Enter to return to menu...");
-    
-    // Clear buffer and wait for Enter
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
+    if (is_interactive) {
+        printf("\n>> Monitoring Stopped. Press Enter to return to menu...");
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+    } else {
+        printf("\n>> Process End ...\n");
+    }
 }
 
 // --- Main Program ---
@@ -309,7 +311,10 @@ int main(int argc, char *argv[]) {
                 return 1;
             }
             int interval = atoi(argv[2]);
-            if (interval > 0) continuousMonitor(interval);
+            if (interval > 0) {
+                // Pass '0' for non-interactive
+                continuousMonitor(interval, 0); 
+            }
             else fprintf(stderr, "Invalid interval.\n");
         } else if (strcmp(argv[1], "-h") == 0) {
             printf("Usage: ./sysmonitor [flags]\n");
@@ -325,6 +330,8 @@ int main(int argc, char *argv[]) {
 
     // Interactive Menu Mode
     int choice;
+    char menuBuffer[128]; // Buffer for menu input safety
+
     do {
         clearScreen();
         is_monitoring = 0;
@@ -340,19 +347,25 @@ int main(int argc, char *argv[]) {
         printf("5. Exit\n");
         printf("Select an option: ");
         
-        int result = scanf("%d", &choice);
+        // --- STRICT INPUT VALIDATION ---
+        if (fgets(menuBuffer, sizeof(menuBuffer), stdin) == NULL) continue;
 
-        // --- GLOBAL BUFFER CLEAR ---
-        // Clears any leftover characters from scanf
-        int ch;
-        while ((ch = getchar()) != '\n' && ch != EOF);
-        
-        if (result == EOF) continue; 
+        char extraChar;
+        int itemsRead = sscanf(menuBuffer, "%d%c", &choice, &extraChar);
 
-        if (result != 1) {
+        int isValid = 0;
+        if (itemsRead == 1) {
+            isValid = 1;
+        } else if (itemsRead == 2 && extraChar == '\n') {
+            isValid = 1;
+        }
+
+        if (!isValid) {
             printf("\nInvalid choice. Please enter a number (1-5).\n");
             sleep(1); 
-            continue; 
+            // --- BUG FIX: Reset choice to prevent exit if "5garbage" was typed ---
+            choice = 0; 
+            continue;
         }
 
         switch (choice) {
@@ -366,7 +379,6 @@ int main(int argc, char *argv[]) {
 
                 while (!valid) {
                     printf("Enter refresh interval (seconds) [Default: 2]: ");
-                    // fgets waits for a fresh line of input
                     if (fgets(inputBuffer, sizeof(inputBuffer), stdin) == NULL) continue; 
 
                     if (inputBuffer[0] == '\n') {
@@ -376,7 +388,10 @@ int main(int argc, char *argv[]) {
                         sleep(1); 
                     } else {
                         int parsed;
-                        if (sscanf(inputBuffer, "%d", &parsed) == 1) {
+                        char trailing;
+                        int args = sscanf(inputBuffer, "%d%c", &parsed, &trailing);
+                        
+                        if (args == 1 || (args == 2 && trailing == '\n')) {
                             if (parsed > 0) {
                                 interval = parsed;
                                 valid = 1;
@@ -384,7 +399,8 @@ int main(int argc, char *argv[]) {
                         } else printf("Invalid input. Please enter a number.\n");
                     }
                 }
-                continuousMonitor(interval);
+                // Pass '1' for interactive mode
+                continuousMonitor(interval, 1);
                 break;
             }
             case 5: 
