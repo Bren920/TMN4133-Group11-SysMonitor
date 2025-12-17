@@ -56,20 +56,20 @@ void logEntry(const char *mode, const char *data) {
     close(fd);
 }
 
-// ---- SIGNAL HANDLER ----
+// --- SIGNAL HANDLER ---
 void handleSignal(int sig) {
-    // Re-arm signal to ensure it persists
-    signal(SIGINT, handleSignal);
-
     if (sig == SIGINT) {
         if (is_monitoring) {
             // Case 1: Inside Continuous Monitor
             printf("\n[Signal Caught] Stopping monitoring...\n");
-            keep_running = 0; 
-            fflush(stdout);
+            
+            // --- FIX: Added Log Entry Here ---
+            logEntry("SIGNAL", "Continuous monitoring stopped via Ctrl+C");
+            
+            keep_running = 0; // Breaks the loop
         } else {
             // Case 2: In Menu
-            printf("\n\nExiting Program... Saving Log.\n");
+            printf("\n\nExiting Program... Saving log.\n");
             logEntry("SIGNAL", "Session ended via Ctrl+C");
             exit(0);
         }
@@ -106,7 +106,6 @@ void getCPUUsage() {
     close(fd);
     sscanf(buffer, "%*s %llu %llu %llu %llu", &a[0], &a[1], &a[2], &a[3]);
 
-    //sleep(1);
     usleep(200000);
 
     // Second reading
@@ -236,6 +235,7 @@ void listTopProcesses() {
     printf("------------------------------------------------\n");
     printf(" %-8s %-20s %-10s\n", "PID", "Name", "CPU Ticks");
     printf("------------------------------------------------\n");
+
     char logBuffer[2048] = "Top 5: "; 
     
     for (int i = 0; i < 5 && i < count; i++) {
@@ -248,12 +248,10 @@ void listTopProcesses() {
             strcat(logBuffer, tmp);
         }
     }
-    
-        printf("------------------------------------------------\n");
     logEntry("PROC", logBuffer);
 }
 
-// --- FIXED CONTINUOUS MONITOR ---
+// --- CONTINUOUS MONITOR ---
 void continuousMonitor(int interval) {
     logEntry("MODE", "Started continuous monitoring");
     
@@ -340,17 +338,14 @@ int main(int argc, char *argv[]) {
         printf("3. Top 5 Processes\n");
         printf("4. Continuous Monitoring\n");
         printf("5. Exit\n");
-        printf("Select an option >> ");
+        printf("Select an option: ");
         
-        // Read the integer
         int result = scanf("%d", &choice);
 
-        // --- FIX START: Clear the buffer globally here ---
-        // This eats the newline (\n) left by scanf so it doesn't 
-        // trigger waitForInput() or other scans accidentally.
+        // --- GLOBAL BUFFER CLEAR ---
+        // Clears any leftover characters from scanf
         int ch;
         while ((ch = getchar()) != '\n' && ch != EOF);
-        // --- FIX END ---
         
         if (result == EOF) continue; 
 
@@ -369,12 +364,9 @@ int main(int argc, char *argv[]) {
                 int valid = 0;
                 char inputBuffer[64];
 
-                // NOTE: We do NOT need to clear buffer here anymore
-                // because we did it globally after scanf above.
-
                 while (!valid) {
-                    printf("Enter update interval in seconds (Press Enter for 2s): ");
-
+                    printf("Enter refresh interval (seconds) [Default: 2]: ");
+                    // fgets waits for a fresh line of input
                     if (fgets(inputBuffer, sizeof(inputBuffer), stdin) == NULL) continue; 
 
                     if (inputBuffer[0] == '\n') {
@@ -388,12 +380,8 @@ int main(int argc, char *argv[]) {
                             if (parsed > 0) {
                                 interval = parsed;
                                 valid = 1;
-                            } else {
-                                printf("Invalid input. Please enter a positive number.\n");
-                            }
-                        } else {
-                            printf("Invalid input. Please enter a number.\n");
-                        }
+                            } else printf("Invalid input. Please enter a positive number.\n");
+                        } else printf("Invalid input. Please enter a number.\n");
                     }
                 }
                 continuousMonitor(interval);
