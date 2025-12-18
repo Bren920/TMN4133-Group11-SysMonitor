@@ -17,10 +17,10 @@ This project was developed as part of the TMN4133 System Programming course to d
 
 | Name | Matrix No. | Role | Task Description |
 |------|------------|------|------------------|
-| **Brendan Chan Kah Le** | 83403 | [Developer] | Implemented Memory logic & Logging. |
-| **Chong Ming Zin** | 83489 | [Coordinator] | Coordinated the Documentation and Created slides for video presentation. |
-| **Ng Clarence Chuan Hann** | 84832 | [Tester] | Conducted CLI tests & Documentation. |
-| **Xavier Liong Zhi Hao** | 86079 | [Developer] | Implemented CPU logic & Signal Handling. |
+| **Brendan Chan Kah Le** | 83403 | Developer | Implemented Memory logic & Logging. |
+| **Chong Ming Zin** | 83489 | Coordinator | Coordinated the Documentation and Created slides for video presentation. |
+| **Ng Clarence Chuan Hann** | 84832 | Tester | Conducted CLI tests & Documentation. |
+| **Xavier Liong Zhi Hao** | 86079 | Developer | Implemented CPU logic & Signal Handling. |
 
 ## ✨ Features
 1.  **CPU Usage Monitoring:** Calculates real-time CPU utilization percentage by reading `/proc/stat`.
