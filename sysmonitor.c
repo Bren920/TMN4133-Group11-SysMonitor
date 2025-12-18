@@ -106,8 +106,8 @@ void getCPUUsage() {
     close(fd);
     sscanf(buffer, "%*s %llu %llu %llu %llu", &a[0], &a[1], &a[2], &a[3]);
 
-    //sleep(1);
-    usleep(100000);
+    // Wait 0.2 seconds (200,000 microseconds) for sampling window
+    usleep(200000);
 
     // Second reading
     fd = open("/proc/stat", O_RDONLY);
